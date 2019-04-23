@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler
 from urllib.parse import parse_qs, urlparse
+
 from src.components.ad_events_controller import AdEventsController
 
 

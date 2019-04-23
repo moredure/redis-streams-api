@@ -1,13 +1,15 @@
-import redis
 from functools import partial
 from http.server import ThreadingHTTPServer
 from os import environ
 from signal import signal, SIGTERM, SIGINT
 from threading import Thread
-from src.components.config import Config
-from src.components.suicide import Suicide
-from src.components.listener import Listener
+
+import redis
+
 from src.components.ad_events_controller import AdEventsController
+from src.components.config import Config
+from src.components.listener import Listener
+from src.components.suicide import Suicide
 
 if __name__ == '__main__':
     config = Config(environ)
@@ -23,7 +25,7 @@ if __name__ == '__main__':
     server = ThreadingHTTPServer(config.address, ListenerWithController)
     server_thread = Thread(target=server.serve_forever)
     server_thread.start()
-    suicide = Suicide(server)
+    suicide = Suicide(server, conn)
     signal(SIGTERM, suicide.die)
     signal(SIGINT, suicide.die)
     server_thread.join()
