@@ -15,11 +15,7 @@ if __name__ == '__main__':
     config = Config(environ)
     conn = redis.Redis(host=config.redis_host,
                        password=config.redis_password,
-                       port=config.redis_port,
-                       ssl=True,
-                       ssl_ca_certs=config.redis_ssl_ca_certs,
-                       ssl_certfile=config.redis_ssl_certfile,
-                       ssl_keyfile=config.redis_ssl_keyfile)
+                       port=config.redis_port)
     controller = AdEventsController(conn)
     ListenerWithController = partial(Listener, controller)
     server = ThreadingHTTPServer(config.address, ListenerWithController)
