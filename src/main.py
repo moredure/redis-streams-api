@@ -4,7 +4,7 @@ from os import environ
 from signal import signal, SIGTERM, SIGINT
 from threading import Thread
 
-import redis
+from redis import Redis
 
 from src.components.ad_events_controller import AdEventsController
 from src.components.config import Config
@@ -13,9 +13,9 @@ from src.components.suicide import Suicide
 
 if __name__ == '__main__':
     config = Config(environ)
-    conn = redis.Redis(host=config.redis_host,
-                       password=config.redis_password,
-                       port=config.redis_port)
+    conn = Redis(host=config.redis_host,
+                 password=config.redis_password,
+                 port=config.redis_port)
     controller = AdEventsController(conn)
     ListenerWithController = partial(Listener, controller)
     server = ThreadingHTTPServer(config.address, ListenerWithController)

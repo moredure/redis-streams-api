@@ -6,4 +6,5 @@ class AdEventsController:
         self.conn = conn
 
     def process_ad_event(self, event: dict):
-        self.conn.xadd(event["type"], event, '*')
+        if 'type' in event:
+            self.conn.xadd(event["type"], event, '*')
