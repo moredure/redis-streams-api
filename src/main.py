@@ -14,7 +14,6 @@ from src.components.suicide import Suicide
 if __name__ == '__main__':
     config = Config(environ)
     conn = Redis(host=config.redis_host,
-                 password=config.redis_password,
                  port=config.redis_port)
     controller = AdEventsController(conn)
     ListenerWithController = partial(Listener, controller)
